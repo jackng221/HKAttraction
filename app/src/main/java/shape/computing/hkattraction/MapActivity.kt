@@ -2,12 +2,13 @@ package shape.computing.hkattraction
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 
-class MainActivity2 : AppCompatActivity() {
+class MapActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main2)
+        setContentView(R.layout.activity_map)
 
-        setSupportActionBar(findViewById(R.id.my_toolbar))
     }
+
 }
