@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">HKAttraction</string>
-    <string name="title_activity_main2">MainActivity2</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">settings</string>
+    <string name="action_up">back</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
