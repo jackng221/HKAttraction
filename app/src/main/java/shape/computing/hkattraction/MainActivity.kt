@@ -1,11 +1,16 @@
 package shape.computing.hkattraction
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startMapsActivity(){
+
         val intent = Intent(this, MapsActivity::class.java)
         startActivity(intent)
     }
@@ -42,5 +48,4 @@ class MainActivity : AppCompatActivity() {
             super.onOptionsItemSelected(item)
         }
     }
-
 }
