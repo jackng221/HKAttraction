@@ -1,13 +1,11 @@
 package shape.computing.hkattraction
 
+import PermissionHandler
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -21,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private lateinit var map: GoogleMap
+    private val permissionHandler = PermissionHandler(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +54,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
             map.uiSettings.isMyLocationButtonEnabled = true;
         } else {
             // Permission to access the location is missing. Show rationale and request permission
-            getPermission(Manifest.permission.ACCESS_FINE_LOCATION, "GPS")
+            permissionHandler.getPermission(Manifest.permission.ACCESS_FINE_LOCATION, "GPS")
         }
     }
 
@@ -64,40 +63,5 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
     }
     override fun onMyLocationButtonClick(): Boolean {
         return false
-    }
-
-    fun getPermission(permission:String, name:String) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED){
-            if(shouldShowRequestPermissionRationale(permission)){
-                rationaleRequest(permission, name)
-            }
-            else {
-                requestPermissionLauncher.launch(permission)
-            }
-        }
-    }
-    //Dialog for permission request rationale
-    fun rationaleRequest(permission:String, name:String){
-        val builder = AlertDialog.Builder(this)
-        builder.apply{
-            setTitle("$name access denied")
-            setMessage("press OK to give permission")
-            setPositiveButton("OK"){dialog, which -> requestPermissionLauncher.launch(permission)}
-            setNegativeButton("Cancel"){dialog, which -> }
-        }
-        val dialog = builder.create()
-        dialog.show()
-    }
-    //Message feedback for permissionRequest
-    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            isGranted:Boolean ->
-        if (isGranted){
-            Toast.makeText(applicationContext, "Permission granted", Toast.LENGTH_SHORT).show()
-            finish();
-            startActivity(intent);
-        }
-        else {
-            Toast.makeText(applicationContext, "Permission denied", Toast.LENGTH_SHORT).show()
-        }
     }
 }

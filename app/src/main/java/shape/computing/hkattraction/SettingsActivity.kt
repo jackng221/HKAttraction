@@ -1,18 +1,22 @@
 package shape.computing.hkattraction
 
-import android.content.Intent
+import PermissionHandler
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 
+
 class SettingsActivity : AppCompatActivity() {
+    private val permissionHandler = PermissionHandler(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        permissionHandler.getPermission(android.Manifest.permission.CAMERA, "Camera")
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
