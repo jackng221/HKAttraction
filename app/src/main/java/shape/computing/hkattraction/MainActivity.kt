@@ -1,28 +1,47 @@
 package shape.computing.hkattraction
 
-import android.Manifest
+import AttractionDbHelper
+import AttractionDbHelper.AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY
+import AttractionDbHelper.AttractionEntry.COLUMN_NAME_DEFAULT_IMG
+import AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE
+import AttractionDbHelper.AttractionEntry.TABLE_NAME
 import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageButton
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val dbHelper = AttractionDbHelper(this)
+
         val ibMaps = findViewById<ImageButton>(R.id.ibMaps)
         ibMaps.setOnClickListener(){
-            startMapsActivity()
+            val db = dbHelper.readableDatabase
+            var cursor = db.query(TABLE_NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+                )
+            cursor.moveToFirst()
+            println(cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID)))
+            println(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_TITLE)))
+
         }
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
+
+        //val layoutManager = GridLayoutManager()
     }
 
     private fun startMapsActivity(){

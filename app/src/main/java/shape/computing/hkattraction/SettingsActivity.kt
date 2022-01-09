@@ -15,8 +15,6 @@ class SettingsActivity : AppCompatActivity() {
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        permissionHandler.getPermission(android.Manifest.permission.CAMERA, "Camera")
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
