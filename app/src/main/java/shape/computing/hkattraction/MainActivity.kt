@@ -8,6 +8,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import recyclerAdapter
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,14 +21,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
-        val layoutManager = GridLayoutManager(this, )
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.adapter = recyclerAdapter(dbHelper)
 
         val ibMaps = findViewById<ImageButton>(R.id.ibMaps)
         ibMaps.setOnClickListener(){
-            println(dbHelper.getSize())
-            for (i in 1..dbHelper.getSize()){
-                println(dbHelper.getData(i, AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE))
-            }
+
         }
     }
 

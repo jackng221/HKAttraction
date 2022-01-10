@@ -23,7 +23,7 @@ class recyclerAdapter (private val dbHelper: AttractionDbHelper): RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = dbHelper.getData(position, AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE).toString()
+        holder.textView.text = dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE).toString()
     }
 
     override fun getItemCount(): Int {
