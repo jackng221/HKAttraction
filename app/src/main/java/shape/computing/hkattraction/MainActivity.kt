@@ -6,6 +6,7 @@ import AttractionDbHelper.AttractionEntry.COLUMN_NAME_DEFAULT_IMG
 import AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE
 import AttractionDbHelper.AttractionEntry.TABLE_NAME
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.BaseColumns
@@ -16,32 +17,23 @@ import androidx.recyclerview.widget.GridLayoutManager
 
 
 class MainActivity : AppCompatActivity() {
+    private val dbHelper = AttractionDbHelper(this)
+    //private lateinit var db: SQLiteDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val dbHelper = AttractionDbHelper(this)
-
-        val ibMaps = findViewById<ImageButton>(R.id.ibMaps)
-        ibMaps.setOnClickListener(){
-            val db = dbHelper.readableDatabase
-            var cursor = db.query(TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
-                )
-            cursor.moveToFirst()
-            println(cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID)))
-            println(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_TITLE)))
-
-        }
-
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
         //val layoutManager = GridLayoutManager()
+
+        val ibMaps = findViewById<ImageButton>(R.id.ibMaps)
+        ibMaps.setOnClickListener(){
+            println(dbHelper.getSize())
+            for (i in 1..dbHelper.getSize()){
+                println(dbHelper.getData(i, COLUMN_NAME_TITLE))
+            }
+        }
     }
 
     private fun startMapsActivity(){

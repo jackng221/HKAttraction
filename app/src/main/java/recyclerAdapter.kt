@@ -1,4 +1,4 @@
-import android.service.autofill.Dataset
+import AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,12 +7,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import shape.computing.hkattraction.R
 
-class recyclerAdapter (private val dataset: Dataset): RecyclerView.Adapter<recyclerAdapter.ViewHolder>() {
+class recyclerAdapter (private val dbHelper: AttractionDbHelper): RecyclerView.Adapter<recyclerAdapter.ViewHolder>() {
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val imgButton: ImageButton
+        val textView: TextView
         init{
             imgButton = view.findViewById(R.id.imageButton)
+            textView = view.findViewById(R.id.textView)
         }
     }
 
@@ -22,10 +24,10 @@ class recyclerAdapter (private val dataset: Dataset): RecyclerView.Adapter<recyc
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.textView.text = dbHelper.getData(position, COLUMN_NAME_TITLE).toString()
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return dbHelper.getSize()
     }
 }

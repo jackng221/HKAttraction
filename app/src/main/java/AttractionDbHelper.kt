@@ -24,6 +24,44 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
     }
 
+    fun getSize(): Int{
+        val db = readableDatabase
+        val cursor = db.query(TABLE_NAME,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+        return cursor.count
+    }
+    fun getData(position: Int, column: String): Any{
+        val db = readableDatabase
+        val cursor = db.query(TABLE_NAME,
+            null,
+            "${BaseColumns._ID} = ?",
+            arrayOf(position.toString()),
+            null,
+            null,
+            null
+        )
+        cursor.moveToFirst()
+        when (column){
+            COLUMN_NAME_TITLE -> {
+                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_TITLE))
+            }
+            COLUMN_NAME_DEFAULT_IMG -> {
+                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_DEFAULT_IMG))
+            }
+            COLUMN_NAME_CUSTOM_IMG_DIRECTORY -> {
+                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_CUSTOM_IMG_DIRECTORY))
+            }
+            else -> {
+                return 0
+            }
+        }
+    }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(SQL_CREATE_ENTRIES)
