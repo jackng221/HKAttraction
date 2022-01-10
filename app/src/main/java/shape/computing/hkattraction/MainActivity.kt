@@ -1,15 +1,9 @@
 package shape.computing.hkattraction
 
 import AttractionDbHelper
-import AttractionDbHelper.AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY
-import AttractionDbHelper.AttractionEntry.COLUMN_NAME_DEFAULT_IMG
-import AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE
-import AttractionDbHelper.AttractionEntry.TABLE_NAME
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.BaseColumns
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageButton
@@ -25,19 +19,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
-        //val layoutManager = GridLayoutManager()
+        val layoutManager = GridLayoutManager(this, )
 
         val ibMaps = findViewById<ImageButton>(R.id.ibMaps)
         ibMaps.setOnClickListener(){
             println(dbHelper.getSize())
             for (i in 1..dbHelper.getSize()){
-                println(dbHelper.getData(i, COLUMN_NAME_TITLE))
+                println(dbHelper.getData(i, AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE))
             }
         }
     }
 
     private fun startMapsActivity(){
-
         val intent = Intent(this, MapsActivity::class.java)
         startActivity(intent)
     }

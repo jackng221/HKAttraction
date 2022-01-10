@@ -1,4 +1,3 @@
-import AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,7 @@ class recyclerAdapter (private val dbHelper: AttractionDbHelper): RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = dbHelper.getData(position, COLUMN_NAME_TITLE).toString()
+        holder.textView.text = dbHelper.getData(position, AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE).toString()
     }
 
     override fun getItemCount(): Int {

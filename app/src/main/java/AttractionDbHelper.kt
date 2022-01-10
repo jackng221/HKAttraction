@@ -1,9 +1,3 @@
-import AttractionDbHelper.AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY
-import AttractionDbHelper.AttractionEntry.COLUMN_NAME_DEFAULT_IMG
-import AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE
-import AttractionDbHelper.AttractionEntry.SQL_CREATE_ENTRIES
-import AttractionDbHelper.AttractionEntry.SQL_DELETE_ENTRIES
-import AttractionDbHelper.AttractionEntry.TABLE_NAME
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -26,7 +20,7 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
 
     fun getSize(): Int{
         val db = readableDatabase
-        val cursor = db.query(TABLE_NAME,
+        val cursor = db.query(AttractionEntry.TABLE_NAME,
             null,
             null,
             null,
@@ -38,7 +32,7 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
     }
     fun getData(position: Int, column: String): Any{
         val db = readableDatabase
-        val cursor = db.query(TABLE_NAME,
+        val cursor = db.query(AttractionEntry.TABLE_NAME,
             null,
             "${BaseColumns._ID} = ?",
             arrayOf(position.toString()),
@@ -48,14 +42,14 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         )
         cursor.moveToFirst()
         when (column){
-            COLUMN_NAME_TITLE -> {
-                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_TITLE))
+            AttractionEntry.COLUMN_NAME_TITLE -> {
+                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_TITLE))
             }
-            COLUMN_NAME_DEFAULT_IMG -> {
-                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_DEFAULT_IMG))
+            AttractionEntry.COLUMN_NAME_DEFAULT_IMG -> {
+                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_DEFAULT_IMG))
             }
-            COLUMN_NAME_CUSTOM_IMG_DIRECTORY -> {
-                return cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NAME_CUSTOM_IMG_DIRECTORY))
+            AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY -> {
+                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY))
             }
             else -> {
                 return 0
@@ -64,26 +58,26 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL(SQL_CREATE_ENTRIES)
+        db.execSQL(AttractionEntry.SQL_CREATE_ENTRIES)
         var item = ContentValues()
-        item.put(COLUMN_NAME_TITLE, "Avenue of stars")
-        item.put(COLUMN_NAME_DEFAULT_IMG, "avenue_of_stars")
-        item.put(COLUMN_NAME_CUSTOM_IMG_DIRECTORY, "")
-        db.insert(TABLE_NAME, null, item)
+        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Avenue of stars")
+        item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "avenue_of_stars")
+        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY, "")
+        db.insert(AttractionEntry.TABLE_NAME, null, item)
         item = ContentValues()
-        item.put(COLUMN_NAME_TITLE, "Big buddha")
-        item.put(COLUMN_NAME_DEFAULT_IMG, "big_buddha")
-        item.put(COLUMN_NAME_CUSTOM_IMG_DIRECTORY, "")
-        db.insert(TABLE_NAME, null, item)
+        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Big buddha")
+        item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "big_buddha")
+        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY, "")
+        db.insert(AttractionEntry.TABLE_NAME, null, item)
         item = ContentValues()
-        item.put(COLUMN_NAME_TITLE, "Flower market")
-        item.put(COLUMN_NAME_DEFAULT_IMG, "flower_market")
-        item.put(COLUMN_NAME_CUSTOM_IMG_DIRECTORY, "")
-        db.insert(TABLE_NAME, null, item)
+        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Flower market")
+        item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "flower_market")
+        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY, "")
+        db.insert(AttractionEntry.TABLE_NAME, null, item)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL(SQL_DELETE_ENTRIES)
+        db.execSQL(AttractionEntry.SQL_DELETE_ENTRIES)
         onCreate(db)
     }
 
