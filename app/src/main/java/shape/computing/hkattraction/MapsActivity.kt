@@ -6,6 +6,8 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -70,5 +72,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
     }
     override fun onMyLocationButtonClick(): Boolean {
         return false
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_map, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_camera -> {
+
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
     }
 }

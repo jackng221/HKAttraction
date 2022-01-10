@@ -26,22 +26,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun startMapsActivity(){
-        val intent = Intent(this, MapsActivity::class.java)
-        startActivity(intent)
-    }
-    private fun startSettingsActivity(){
-        val intent = Intent(this, SettingsActivity::class.java)
-        startActivity(intent)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_settings -> {
-            startSettingsActivity()
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
             true
         }
         else -> {

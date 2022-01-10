@@ -2,6 +2,10 @@
     <string name="app_name">HKAttraction</string>
     <string name="action_settings">settings</string>
     <string name="action_up">back</string>
+    <string name="action_camera">Save your moment!</string>
+    <string name="message_camera">Save your moment!</string>
+
+
     <string name="title_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
 </resources>
