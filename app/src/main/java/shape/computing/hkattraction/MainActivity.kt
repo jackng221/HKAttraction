@@ -14,7 +14,6 @@ import RecyclerAdapter
 
 class MainActivity : AppCompatActivity() {
     private val dbHelper = AttractionDbHelper(this)
-    //private lateinit var db: SQLiteDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,16 +21,12 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = RecyclerAdapter(dbHelper, this)
 
-        val ibMaps = findViewById<ImageButton>(R.id.ibMaps)
-        ibMaps.setOnClickListener(){
-
-        }
     }
 
-    private fun startMapsActivity(){
+    fun startMapsActivity(){
         val intent = Intent(this, MapsActivity::class.java)
         startActivity(intent)
     }

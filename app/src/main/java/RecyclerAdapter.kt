@@ -1,16 +1,17 @@
 import android.content.Context
-import android.content.res.Resources
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import shape.computing.hkattraction.MapsActivity
 import shape.computing.hkattraction.R
 
-class RecyclerAdapter (private val dbHelper: AttractionDbHelper, val context: Context): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+
+class RecyclerAdapter (private val dbHelper: AttractionDbHelper, private val context: Context): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val imgButton: ImageButton = view.findViewById(R.id.imageButton)
@@ -34,6 +35,15 @@ class RecyclerAdapter (private val dbHelper: AttractionDbHelper, val context: Co
             else -> {
 
             }
+        }
+
+        holder.imgButton.setOnClickListener(){
+            val intent = Intent(context, MapsActivity::class.java)
+            val lat = dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_LAT).toString().toDouble()
+            val lng = dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_LNG).toString().toDouble()
+            intent.putExtra("latitude", lat)
+            intent.putExtra("longitude", lng)
+            context.startActivity(intent)
         }
     }
 
