@@ -24,7 +24,8 @@ class RecyclerAdapter (private val dbHelper: AttractionDbHelper, private val con
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE).toString()
+        val name = dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE).toString()
+        holder.textView.text = name
 
         when (dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY).toString()){
             "" -> {
@@ -43,6 +44,7 @@ class RecyclerAdapter (private val dbHelper: AttractionDbHelper, private val con
             val lng = dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_LNG).toString().toDouble()
             intent.putExtra("latitude", lat)
             intent.putExtra("longitude", lng)
+            intent.putExtra("locationName", name)
             context.startActivity(intent)
         }
     }

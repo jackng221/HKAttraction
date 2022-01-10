@@ -20,8 +20,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
 
     private lateinit var map: GoogleMap
     private val permissionHandler = PermissionHandler(this)
-    var lat: Double = 0.0
-    var lng: Double = 0.0
+    private var lat: Double = 0.0
+    private var lng: Double = 0.0
+    private var location: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
 
         lat = intent.getDoubleExtra("latitude", 0.0)
         lng = intent.getDoubleExtra("longitude", 0.0)
+        location = intent.getStringExtra("locationName")
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -45,9 +47,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
         map.setOnMyLocationClickListener(this)
         map.setOnMyLocationButtonClickListener(this)
 
-        val centralPier = LatLng(lat, lng)
-        map.addMarker(MarkerOptions().position(centralPier).title("Central Pier"))
-        map.moveCamera(CameraUpdateFactory.newLatLng(centralPier))
+        val latLng = LatLng(lat, lng)
+        map.addMarker(MarkerOptions().position(latLng).title(location))
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
         map.setMinZoomPreference(12F)
         map.setPadding(0, 150, 0, 0)
     }
