@@ -9,7 +9,7 @@ import android.view.MenuItem
 import android.widget.ImageButton
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import recyclerAdapter
+import RecyclerAdapter
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 2)
-        recyclerView.adapter = recyclerAdapter(dbHelper)
+        recyclerView.adapter = RecyclerAdapter(dbHelper, this)
 
         val ibMaps = findViewById<ImageButton>(R.id.ibMaps)
         ibMaps.setOnClickListener(){

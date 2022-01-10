@@ -9,7 +9,7 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
     object AttractionEntry: BaseColumns {
         const val TABLE_NAME = "entry"
         const val COLUMN_NAME_TITLE = "title"
-        const val COLUMN_NAME_DEFAULT_IMG = "defaultDirectory"
+        const val COLUMN_NAME_DEFAULT_IMG = "defaultImageName"
         const val COLUMN_NAME_CUSTOM_IMG_DIRECTORY = "customDirectory"
 
         const val SQL_CREATE_ENTRIES =
