@@ -73,8 +73,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
 
         val latLng = LatLng(lat, lng)
         map.addMarker(MarkerOptions().position(latLng).title(location))
-        map.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-        map.setMinZoomPreference(12F)
+        map.moveCamera(CameraUpdateFactory.newLatLng(LatLng(22.38489484051435, 114.1160620127353))) // center of HK
+        map.setMinZoomPreference(9.8F)
         map.setPadding(0, 150, 0, 0)
     }
 
