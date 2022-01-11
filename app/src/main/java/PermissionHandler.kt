@@ -7,8 +7,9 @@ import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 
 class PermissionHandler (private val activity: AppCompatActivity){
-
-    fun getPermission(permission:String, name:String) {
+    private var reload: Boolean = false
+    fun getPermission(permission:String, name:String, reloadIntent: Boolean) {
+        if (reloadIntent) { reload = true }
         if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_DENIED){
             if(shouldShowRequestPermissionRationale(activity, permission)){
                 rationaleRequest(permission, name)
@@ -35,8 +36,10 @@ class PermissionHandler (private val activity: AppCompatActivity){
             isGranted:Boolean ->
         if (isGranted){
             Toast.makeText(activity.applicationContext, "Permission granted", Toast.LENGTH_SHORT).show()
-            activity.finish();
-            activity.startActivity(activity.intent);
+            if (reload){
+                activity.finish()
+                activity.startActivity(activity.intent)
+            }
         }
         else {
             Toast.makeText(activity.applicationContext, "Permission denied", Toast.LENGTH_SHORT).show()

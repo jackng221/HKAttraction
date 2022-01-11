@@ -85,7 +85,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
             map.uiSettings.isMyLocationButtonEnabled = true;
         } else {
             // Permission to access the location is missing. Show rationale and request permission
-            permissionHandler.getPermission(Manifest.permission.ACCESS_FINE_LOCATION, "GPS")
+            permissionHandler.getPermission(Manifest.permission.ACCESS_FINE_LOCATION, "GPS", true)
         }
     }
 
@@ -102,7 +102,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
     }
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_camera -> {
-            permissionHandler.getPermission(android.Manifest.permission.CAMERA, "Camera")
+            permissionHandler.getPermission(android.Manifest.permission.CAMERA, "Camera", false)
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
@@ -119,19 +119,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
                     cameraResultLauncher.launch(uri)
                 }
             }
-            else {
-                permissionHandler.getPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE, "read external")
-                permissionHandler.getPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, "write external")
+/*            else {
+                permissionHandler.getPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE, "read external", false)
+                permissionHandler.getPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, "write external", false)
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
                         registerForActivityResult(ActivityResultContracts.TakePicture()){
-                            //getExternalStoragePublicDirectory(DIRECTORY_PICTURES)
+
                         }
                     }
-            }
-
-
+            }*/
             true
         }
         else -> {
