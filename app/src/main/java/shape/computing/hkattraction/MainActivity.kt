@@ -9,10 +9,19 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import RecyclerAdapter
+import androidx.appcompat.app.AlertDialog
 
 
 class MainActivity : AppCompatActivity() {
     private val dbHelper = AttractionDbHelper(this)
+
+    private fun resetPictures(){
+        for (i in 1..dbHelper.getSize()){
+            dbHelper.updateData(i, AttractionDbHelper.AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
+        }
+        finish()
+        startActivity(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +39,16 @@ class MainActivity : AppCompatActivity() {
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_settings -> {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
+        R.id.action_reset_pic -> {
+            val builder = AlertDialog.Builder(this)
+            builder.apply{
+                setTitle("Warning!")
+                setMessage("Reset to default pictures?")
+                setPositiveButton("OK"){dialog, which -> resetPictures()}
+                setNegativeButton("Cancel"){dialog, which -> }
+            }
+            val dialog = builder.create()
+            dialog.show()
             true
         }
         else -> {

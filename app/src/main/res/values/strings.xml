@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">HKAttraction</string>
-    <string name="action_settings">settings</string>
+    <string name="action_reset_pic">reset to default pictures</string>
     <string name="action_up">back</string>
     <string name="action_camera">Save your moment!</string>
     <string name="message_camera">Save your moment!</string>

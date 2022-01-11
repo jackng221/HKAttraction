@@ -8,8 +8,8 @@ import androidx.core.content.ContextCompat
 
 class PermissionHandler (private val activity: AppCompatActivity){
     private var reload: Boolean = false
-    fun getPermission(permission:String, name:String, reloadIntent: Boolean) {
-        if (reloadIntent) { reload = true }
+    fun getPermission(permission:String, name:String, reloadActivity: Boolean) {
+        if (reloadActivity) { reload = true }
         if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_DENIED){
             if(shouldShowRequestPermissionRationale(activity, permission)){
                 rationaleRequest(permission, name)

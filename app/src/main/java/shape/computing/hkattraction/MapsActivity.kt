@@ -106,9 +106,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
-
-                    println("TEST")
-
                     val fileName = location?.replace(" ", "_", false) + "_custom_"
                     val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
                     val tempFile = File.createTempFile(fileName, ".png", storageDir).apply{
@@ -119,17 +116,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
                     cameraResultLauncher.launch(uri)
                 }
             }
-/*            else {
-                permissionHandler.getPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE, "read external", false)
-                permissionHandler.getPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, "write external", false)
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                        registerForActivityResult(ActivityResultContracts.TakePicture()){
-
-                        }
-                    }
-            }*/
             true
         }
         else -> {

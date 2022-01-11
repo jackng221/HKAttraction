@@ -45,26 +45,7 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
             null
         )
         cursor.moveToFirst()
-        when (column){
-            AttractionEntry.COLUMN_NAME_TITLE -> {
-                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_TITLE))
-            }
-            AttractionEntry.COLUMN_NAME_DEFAULT_IMG -> {
-                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_DEFAULT_IMG))
-            }
-            AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI -> {
-                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI))
-            }
-            AttractionEntry.COLUMN_NAME_LAT -> {
-                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_LAT))
-            }
-            AttractionEntry.COLUMN_NAME_LNG -> {
-                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_LNG))
-            }
-            else -> {
-                return 0
-            }
-        }
+        return cursor.getString(cursor.getColumnIndexOrThrow(column))
     }
     fun updateData(position: Int, column: String, value: String){
         val db = writableDatabase
