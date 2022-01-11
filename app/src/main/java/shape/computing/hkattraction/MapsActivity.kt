@@ -1,14 +1,15 @@
 package shape.computing.hkattraction
 
+import AttractionDbHelper
 import PermissionHandler
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -27,14 +28,19 @@ import java.io.File
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private lateinit var map: GoogleMap
-    private val permissionHandler = PermissionHandler(this)
     private var lat: Double = 0.0
     private var lng: Double = 0.0
     private var location: String? = ""
+    private var position: Int = 0
+    private var uri: Uri? = null
+
+    private lateinit var map: GoogleMap
+    private val dbHelper = AttractionDbHelper(this)
+    private val permissionHandler = PermissionHandler(this)
     private val cameraResultLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()){ isSuccess ->
         if (isSuccess){
             Toast.makeText(applicationContext, "Photo saved", Toast.LENGTH_SHORT).show()
+            dbHelper.updateData(position, AttractionDbHelper.AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, uri.toString())
         }
         else {
             Toast.makeText(applicationContext, "Error: Photo not saved", Toast.LENGTH_SHORT).show()
@@ -55,6 +61,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
         lat = intent.getDoubleExtra("latitude", 0.0)
         lng = intent.getDoubleExtra("longitude", 0.0)
         location = intent.getStringExtra("locationName")
+        position = intent.getIntExtra("position", 0)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -108,7 +115,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
                         createNewFile()
                         //deleteOnExit()
                     }
-                    val uri = FileProvider.getUriForFile(applicationContext, "${BuildConfig.APPLICATION_ID}.provider", tempFile)
+                    uri = FileProvider.getUriForFile(applicationContext, "${BuildConfig.APPLICATION_ID}.provider", tempFile)
                     cameraResultLauncher.launch(uri)
                 }
             }

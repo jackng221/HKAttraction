@@ -10,13 +10,13 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         const val TABLE_NAME = "entry"
         const val COLUMN_NAME_TITLE = "title"
         const val COLUMN_NAME_DEFAULT_IMG = "defaultImageName"
-        const val COLUMN_NAME_CUSTOM_IMG_DIRECTORY = "customDirectory"
+        const val COLUMN_NAME_CUSTOM_IMG_URI = "customImgUri"
         const val COLUMN_NAME_LAT = "latitude"
         const val COLUMN_NAME_LNG = "longitude"
 
 
         const val SQL_CREATE_ENTRIES =
-            "CREATE TABLE $TABLE_NAME (${BaseColumns._ID} INTEGER PRIMARY KEY, $COLUMN_NAME_TITLE TEXT, $COLUMN_NAME_DEFAULT_IMG TEXT, $COLUMN_NAME_CUSTOM_IMG_DIRECTORY TEXT, " +
+            "CREATE TABLE $TABLE_NAME (${BaseColumns._ID} INTEGER PRIMARY KEY, $COLUMN_NAME_TITLE TEXT, $COLUMN_NAME_DEFAULT_IMG TEXT, $COLUMN_NAME_CUSTOM_IMG_URI TEXT, " +
                     "$COLUMN_NAME_LAT TEXT, $COLUMN_NAME_LNG TEXT)"
 
         const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
@@ -52,8 +52,8 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
             AttractionEntry.COLUMN_NAME_DEFAULT_IMG -> {
                 return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_DEFAULT_IMG))
             }
-            AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY -> {
-                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY))
+            AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI -> {
+                return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI))
             }
             AttractionEntry.COLUMN_NAME_LAT -> {
                 return cursor.getString(cursor.getColumnIndexOrThrow(AttractionEntry.COLUMN_NAME_LAT))
@@ -66,27 +66,34 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
             }
         }
     }
+    fun updateData(position: Int, column: String, value: String){
+        val db = writableDatabase
+        var values = ContentValues().apply {
+            put(column, value)
+        }
+        db.update(AttractionEntry.TABLE_NAME, values, "${BaseColumns._ID} LIKE ?", arrayOf(position.toString()))
+    }
 
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(AttractionEntry.SQL_CREATE_ENTRIES)
         var item = ContentValues()
         item.put(AttractionEntry.COLUMN_NAME_TITLE, "Avenue of stars")
         item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "avenue_of_stars")
-        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY, "")
+        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
         item.put(AttractionEntry.COLUMN_NAME_LAT, "22.2938707")
         item.put(AttractionEntry.COLUMN_NAME_LNG, "114.1756945")
         db.insert(AttractionEntry.TABLE_NAME, null, item)
         item = ContentValues()
         item.put(AttractionEntry.COLUMN_NAME_TITLE, "Big buddha")
         item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "big_buddha")
-        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY, "")
+        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
         item.put(AttractionEntry.COLUMN_NAME_LAT, "22.2539897")
         item.put(AttractionEntry.COLUMN_NAME_LNG, "113.9027953")
         db.insert(AttractionEntry.TABLE_NAME, null, item)
         item = ContentValues()
         item.put(AttractionEntry.COLUMN_NAME_TITLE, "Flower market")
         item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "flower_market")
-        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_DIRECTORY, "")
+        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
         item.put(AttractionEntry.COLUMN_NAME_LAT, "22.325229")
         item.put(AttractionEntry.COLUMN_NAME_LNG, "114.172089")
         db.insert(AttractionEntry.TABLE_NAME, null, item)
