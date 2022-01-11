@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = RecyclerAdapter(dbHelper, this)
-
+        contentResolver
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

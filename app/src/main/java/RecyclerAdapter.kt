@@ -1,5 +1,8 @@
 import android.content.Context
 import android.content.Intent
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +37,8 @@ class RecyclerAdapter (private val dbHelper: AttractionDbHelper, private val con
                 holder.imgButton.setImageDrawable(img)
             }
             else -> {
-
+                val uri = Uri.parse(dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI).toString())
+                    holder.imgButton.setImageURI(uri)
             }
         }
 
