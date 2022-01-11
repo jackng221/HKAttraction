@@ -4,12 +4,18 @@ import PermissionHandler
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Location
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -17,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.io.File
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLocationClickListener, GoogleMap.OnMyLocationButtonClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -25,6 +32,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
     private var lat: Double = 0.0
     private var lng: Double = 0.0
     private var location: String? = ""
+    private val cameraResultLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()){ isSuccess ->
+        if (isSuccess){
+            Toast.makeText(applicationContext, "Photo saved", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            Toast.makeText(applicationContext, "Error: Photo not saved", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +95,35 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
     }
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_camera -> {
+            permissionHandler.getPermission(android.Manifest.permission.CAMERA, "Camera")
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
+
+                    println("TEST")
+
+                    val fileName = location?.replace(" ", "_", false) + "_custom_"
+                    val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                    val tempFile = File.createTempFile(fileName, ".png", storageDir).apply{
+                        createNewFile()
+                        //deleteOnExit()
+                    }
+                    val uri = FileProvider.getUriForFile(applicationContext, "${BuildConfig.APPLICATION_ID}.provider", tempFile)
+                    cameraResultLauncher.launch(uri)
+                }
+            }
+            else {
+                permissionHandler.getPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE, "read external")
+                permissionHandler.getPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, "write external")
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                        registerForActivityResult(ActivityResultContracts.TakePicture()){
+                            //getExternalStoragePublicDirectory(DIRECTORY_PICTURES)
+                        }
+                    }
+            }
+
 
             true
         }
