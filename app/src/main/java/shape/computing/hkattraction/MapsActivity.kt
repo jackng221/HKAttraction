@@ -106,7 +106,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
-                    val fileName = location?.replace(" ", "_", false) + "_custom_"
+                    val fileName = location?.replace("[^A-Za-z0-9]".toRegex(), " ")?.trim()?.replace("\\s+".toRegex(), "_") + "_custom_"
                     val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
                     val tempFile = File.createTempFile(fileName, ".png", storageDir).apply{
                         createNewFile()
