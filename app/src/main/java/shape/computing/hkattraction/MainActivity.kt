@@ -8,10 +8,38 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import RecyclerAdapter
+import android.content.Context
+import android.content.Intent
+import android.hardware.Sensor
+import android.hardware.SensorManager
+import android.hardware.TriggerEvent
+import android.hardware.TriggerEventListener
 import androidx.appcompat.app.AlertDialog
+import kotlin.random.Random
 
 
 class MainActivity : AppCompatActivity() {
+
+    class TriggerListener(private val context: Context): TriggerEventListener(){
+        private val dbHelper = AttractionDbHelper(context)
+        override fun onTrigger(event: TriggerEvent?) {
+            if (dbHelper.getSize() >= 1){
+                val position = Random.nextInt(1, dbHelper.getSize())
+                val intent = Intent(context, MapsActivity::class.java)
+                val name = dbHelper.getData(position, AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE).toString()
+                val lat = dbHelper.getData(position, AttractionDbHelper.AttractionEntry.COLUMN_NAME_LAT).toString().toDouble()
+                val lng = dbHelper.getData(position, AttractionDbHelper.AttractionEntry.COLUMN_NAME_LNG).toString().toDouble()
+                intent.putExtra("latitude", lat)
+                intent.putExtra("longitude", lng)
+                intent.putExtra("locationName", name)
+                intent.putExtra("position", position + 1)
+                context.startActivity(intent)
+            }
+        }
+    }
+    private lateinit var sensorManager: SensorManager
+    private var sensor: Sensor? = null
+    private var triggerListener = TriggerListener(this)
     private val dbHelper = AttractionDbHelper(this)
 
     private fun resetPictures(){
@@ -27,10 +55,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_SIGNIFICANT_MOTION)
+
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 1)
         recyclerView.adapter = RecyclerAdapter(dbHelper, this)
         contentResolver
+    }
+    override fun onResume() {
+        super.onResume()
+        if (sensor != null){
+            sensorManager.requestTriggerSensor(triggerListener, sensor)
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+        if (sensor != null) {
+            sensorManager.cancelTriggerSensor(triggerListener, sensor)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
