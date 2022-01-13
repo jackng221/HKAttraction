@@ -6,6 +6,10 @@ import android.provider.BaseColumns
 
 
 class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+    companion object {
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "Attraction.db"
+    }
     object AttractionEntry: BaseColumns {
         const val TABLE_NAME = "entry"
         const val COLUMN_NAME_TITLE = "title"
@@ -129,11 +133,5 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
 
     override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         onUpgrade(db, oldVersion, newVersion)
-    }
-
-    companion object {
-        // If you change the database schema, you must increment the database version.
-        const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "Attraction.db"
     }
 }
