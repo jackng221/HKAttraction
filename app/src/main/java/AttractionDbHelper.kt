@@ -7,7 +7,7 @@ import android.provider.BaseColumns
 
 class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 1  //increase to update
         const val DATABASE_NAME = "Attraction.db"
     }
     object AttractionEntry: BaseColumns {
@@ -62,28 +62,28 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(AttractionEntry.SQL_CREATE_ENTRIES)
         var item = ContentValues()
-        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Avenue of stars")
+        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Avenue of Stars")
         item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "avenue_of_stars")
         item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
         item.put(AttractionEntry.COLUMN_NAME_LAT, "22.29308898388784")
         item.put(AttractionEntry.COLUMN_NAME_LNG, "114.17413976128829")
         db.insert(AttractionEntry.TABLE_NAME, null, item)
         item = ContentValues()
-        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Big buddha")
+        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Big Buddha")
         item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "big_buddha")
         item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
         item.put(AttractionEntry.COLUMN_NAME_LAT, "22.25402438248997")
         item.put(AttractionEntry.COLUMN_NAME_LNG, "113.90491962235149")
         db.insert(AttractionEntry.TABLE_NAME, null, item)
         item = ContentValues()
-        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Flower market")
+        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Flower Market")
         item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "flower_market")
         item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
         item.put(AttractionEntry.COLUMN_NAME_LAT, "22.325229")
         item.put(AttractionEntry.COLUMN_NAME_LNG, "114.172089")
         db.insert(AttractionEntry.TABLE_NAME, null, item)
         item = ContentValues()
-        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Lan kwai fong")
+        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Lan Kwai Fong")
         item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "lan_kwai_fong")
         item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
         item.put(AttractionEntry.COLUMN_NAME_LAT, "22.2811")
@@ -111,14 +111,7 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         item.put(AttractionEntry.COLUMN_NAME_LNG, "114.16874283947945")
         db.insert(AttractionEntry.TABLE_NAME, null, item)
         item = ContentValues()
-        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Flower market")
-        item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "flower_market")
-        item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
-        item.put(AttractionEntry.COLUMN_NAME_LAT, "22.325229")
-        item.put(AttractionEntry.COLUMN_NAME_LNG, "114.172089")
-        db.insert(AttractionEntry.TABLE_NAME, null, item)
-        item = ContentValues()
-        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Temple street")
+        item.put(AttractionEntry.COLUMN_NAME_TITLE, "Temple Street")
         item.put(AttractionEntry.COLUMN_NAME_DEFAULT_IMG, "temple_street")
         item.put(AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI, "")
         item.put(AttractionEntry.COLUMN_NAME_LAT, "22.30552")
