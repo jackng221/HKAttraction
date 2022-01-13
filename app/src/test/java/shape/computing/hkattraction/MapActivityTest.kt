@@ -35,10 +35,21 @@ class MapActivityTest {
         assertEquals(expectedName, createFileName(location))
     }
     @Test
+    fun numbers() {
+        val location = "1234 5678"
+        val expectedName = "1234_5678_custom_"
+        assertEquals(expectedName, createFileName(location))
+    }
+    @Test
+    fun onlySpChars() {
+        val location = "!@#$%^&*()_+=-{}|][;':,./?<>"
+        val expectedName = "_custom_"
+        assertEquals(expectedName, createFileName(location))
+    }
+    @Test
     fun empty() {
         val location = ""
         val expectedName = "_custom_"
         assertEquals(expectedName, createFileName(location))
     }
-
 }
