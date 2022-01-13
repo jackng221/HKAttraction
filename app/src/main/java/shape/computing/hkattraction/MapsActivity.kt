@@ -30,9 +30,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
 
     private var lat: Double = 0.0
     private var lng: Double = 0.0
-    private var location: String? = ""
+    private var location: String = ""
     private var position: Int = 0
-    private var uri: Uri? = null
+    private var uri: Uri = Uri.EMPTY
 
     private lateinit var map: GoogleMap
     private val dbHelper = AttractionDbHelper(this)
@@ -50,7 +50,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -60,7 +60,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
 
         lat = intent.getDoubleExtra("latitude", 0.0)
         lng = intent.getDoubleExtra("longitude", 0.0)
-        location = intent.getStringExtra("locationName")
+
+        if(intent.getStringExtra("locationName") != null){
+            location = intent.getStringExtra("locationName")!!
+        }
         position = intent.getIntExtra("position", 0)
     }
 
@@ -106,7 +109,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED){
-                    val fileName = location?.replace("[^A-Za-z0-9]".toRegex(), " ")?.trim()?.replace("\\s+".toRegex(), "_") + "_custom_"
+                    val fileName = location.replace("[^A-Za-z0-9]".toRegex(), " ")?.trim()?.replace("\\s+".toRegex(), "_") + "_custom_"
                     val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
                     val tempFile = File.createTempFile(fileName, ".png", storageDir).apply{
                         createNewFile()

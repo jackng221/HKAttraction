@@ -40,6 +40,12 @@ class MapActivityTest {
             val expectedName = "test_location_name_custom_"
             assertEquals(expectedName, createFileName(location))
         }
+        @Test
+        fun case6(){
+            val location = ""
+            val expectedName = "_custom_"
+            assertEquals(expectedName, createFileName(location))
+        }
+        // required to ensure location is not null
     }
-
 }
