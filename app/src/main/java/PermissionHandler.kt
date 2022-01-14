@@ -7,7 +7,9 @@ import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 
 class PermissionHandler (private val activity: AppCompatActivity){
+    // if reload activity after handling
     private var reload: Boolean = false
+    // if permission not acquired, do rationale request or normal request
     fun getPermission(permission:String, name:String, reloadActivity: Boolean) {
         if (reloadActivity) { reload = true }
         if (ContextCompat.checkSelfPermission(activity, permission) == PackageManager.PERMISSION_DENIED){
@@ -19,7 +21,7 @@ class PermissionHandler (private val activity: AppCompatActivity){
             }
         }
     }
-    //Dialog for permission request rationale
+    // permission request with rationale dialog
     private fun rationaleRequest(permission:String, name:String){
         val builder = AlertDialog.Builder(activity)
         builder.apply{
@@ -31,7 +33,8 @@ class PermissionHandler (private val activity: AppCompatActivity){
         val dialog = builder.create()
         dialog.show()
     }
-    //Message feedback for permissionRequest
+    // permission request
+    // show message feedback; optional reload
     private val requestPermissionLauncher = activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) {
             isGranted:Boolean ->
         if (isGranted){

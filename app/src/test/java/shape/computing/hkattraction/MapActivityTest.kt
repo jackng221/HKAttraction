@@ -5,7 +5,6 @@ import org.junit.Test
 import org.junit.Assert.*
 
 class MapActivityTest {
-
     //FileNameReplace: create photo file name from location name
     private fun createFileName(location: String): String {
         return location.replace("[^A-Za-z0-9]".toRegex(), " ").trim().replace("\\s+".toRegex(), "_") + "_custom_"

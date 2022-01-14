@@ -10,6 +10,7 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         const val DATABASE_VERSION = 1  //increase to update
         const val DATABASE_NAME = "Attraction.db"
     }
+    // table schema
     object AttractionEntry: BaseColumns {
         const val TABLE_NAME = "entry"
         const val COLUMN_NAME_TITLE = "title"
@@ -18,14 +19,13 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         const val COLUMN_NAME_LAT = "latitude"
         const val COLUMN_NAME_LNG = "longitude"
 
-
         const val SQL_CREATE_ENTRIES =
             "CREATE TABLE $TABLE_NAME (${BaseColumns._ID} INTEGER PRIMARY KEY, $COLUMN_NAME_TITLE TEXT, $COLUMN_NAME_DEFAULT_IMG TEXT, $COLUMN_NAME_CUSTOM_IMG_URI TEXT, " +
                     "$COLUMN_NAME_LAT TEXT, $COLUMN_NAME_LNG TEXT)"
 
         const val SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS $TABLE_NAME"
     }
-
+    // get table size (rows)
     fun getSize(): Int{
         val db = readableDatabase
         val cursor = db.query(AttractionEntry.TABLE_NAME,
@@ -38,6 +38,7 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         )
         return cursor.count
     }
+    // get data of a row from a column
     fun getData(position: Int, column: String): Any{
         val db = readableDatabase
         val cursor = db.query(AttractionEntry.TABLE_NAME,
@@ -51,6 +52,7 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         cursor.moveToFirst()
         return cursor.getString(cursor.getColumnIndexOrThrow(column))
     }
+    // update data of a column of a row
     fun updateData(position: Int, column: String, value: String){
         val db = writableDatabase
         var values = ContentValues().apply {
@@ -58,7 +60,7 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         }
         db.update(AttractionEntry.TABLE_NAME, values, "${BaseColumns._ID} LIKE ?", arrayOf(position.toString()))
     }
-
+    // create table and populate items
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(AttractionEntry.SQL_CREATE_ENTRIES)
         var item = ContentValues()
@@ -118,13 +120,12 @@ class AttractionDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_N
         item.put(AttractionEntry.COLUMN_NAME_LNG, "114.169731")
         db.insert(AttractionEntry.TABLE_NAME, null, item)
     }
-
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL(AttractionEntry.SQL_DELETE_ENTRIES)
         onCreate(db)
     }
 
     override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        onUpgrade(db, oldVersion, newVersion)
+
     }
 }

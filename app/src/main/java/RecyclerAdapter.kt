@@ -14,21 +14,27 @@ import java.io.InputStream
 
 
 class RecyclerAdapter(private val dbHelper: AttractionDbHelper, private val context: Context): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-
+    // set item views (elements)
     class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val imgButton: ImageButton = view.findViewById(R.id.imageButton)
         val textView: TextView = view.findViewById(R.id.textView)
     }
-
+    // set items count
+    override fun getItemCount(): Int {
+        return dbHelper.getSize()
+    }
+    // apply item_grid_xml to items
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_grid, parent, false)
         return ViewHolder(view)
     }
-
+    // set item contents
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        // set name
         val name = dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_TITLE).toString()
         holder.textView.text = name
-
+        // if database has no custom image data, use default image as item image
+        // else, use custom image (uri)
         when (dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_CUSTOM_IMG_URI).toString()){
             "" -> {
                 val name = dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_DEFAULT_IMG).toString()
@@ -50,7 +56,7 @@ class RecyclerAdapter(private val dbHelper: AttractionDbHelper, private val cont
                 }
             }
         }
-
+        // on clicking item image, start map activity with data respective to the item (attraction)
         holder.imgButton.setOnClickListener(){
             val intent = Intent(context, MapsActivity::class.java)
             val lat = dbHelper.getData(position + 1, AttractionDbHelper.AttractionEntry.COLUMN_NAME_LAT).toString().toDouble()
@@ -61,9 +67,5 @@ class RecyclerAdapter(private val dbHelper: AttractionDbHelper, private val cont
             intent.putExtra("position", position + 1)
             context.startActivity(intent)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return dbHelper.getSize()
     }
 }
