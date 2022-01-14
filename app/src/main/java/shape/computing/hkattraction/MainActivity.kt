@@ -65,6 +65,8 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.adapter?.notifyDataSetChanged()
         if (sensor != null){
             sensorManager.requestTriggerSensor(triggerListener, sensor)
         }
