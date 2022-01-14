@@ -24,6 +24,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.io.File
 import java.util.*
 
 
@@ -50,6 +51,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,  GoogleMap.OnMyLoc
         }
         else {
             Toast.makeText(applicationContext, "Error: Photo not saved", Toast.LENGTH_SHORT).show()
+            contentResolver.delete(uri, null, null)
         }
     }
 
